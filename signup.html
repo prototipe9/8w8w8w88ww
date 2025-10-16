@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Prozone | Prozone.cc | Prozone.ac | Prozone CC Shop</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="keywords" content="Prozone, prozone shop, prozone.cc, Prozone CC Shop, Prozone CVV" />
+<style>
+:root{
+  --bg:#0f1820;--card:#0c1319;--text:#f0f5f8;--muted:#93a5b3;
+  --line:#1d2a33;--accent:#ef6526;--accent-700:#cf4f15;--input-bg:#0f171d;
+  --shadow:0 18px 48px rgba(0,0,0,.5);
+  --wave-3:#34231d;--wave-2:#8e421d;--wave-1:#c6561f;
+}
+:root.light{
+  --bg:#f7f7f7;--card:#fff;--text:#111;--muted:#7b818a;
+  --line:#e7eaee;--input-bg:#fff;--shadow:0 18px 48px rgba(0,0,0,.12);
+  --wave-3:#fde6d9;--wave-2:#f9b286;--wave-1:#f28345;
+}
+*{box-sizing:border-box}
+body{margin:0;height:100vh;font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--text);background:var(--bg);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.scene{position:relative;min-height:100vh;width:100%;display:flex;align-items:center;justify-content:center}
+.card{position:relative;width:520px;max-width:92vw;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:42px 48px 46px;text-align:left;z-index:2}
+.brand{display:flex;align-items:center;justify-content:center;margin:6px 0}
+.brand img{height:38px}
+.tabs{display:flex;justify-content:center;gap:28px;margin:14px 0 20px;cursor:pointer}
+.tab{font-weight:700;letter-spacing:.6px;color:#8fa0ac;position:relative}
+.tab.active{color:var(--text)}
+.tab.active::after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:-8px;width:120px;height:3px;background:var(--accent);border-radius:2px}
+.field{position:relative;margin:16px 0}
+.field input{width:100%;height:50px;padding:0 16px 0 48px;border-radius:10px;border:1px solid var(--line);background:var(--input-bg);color:var(--text);font-size:15px;outline:none}
+.field input::placeholder{color:var(--muted)}
+.field input:focus{box-shadow:0 0 0 2px rgba(239,101,38,.28),0 0 0 6px rgba(239,101,38,.08);border-color:var(--accent)}
+.ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:22px;height:22px;opacity:.9}
+.captcha-row{display:flex;gap:12px;align-items:center;margin:18px 0}
+#captchaCanvas{background:#fff;border-radius:8px;height:56px;width:220px;border:1px solid #d6d6d6}
+.captcha-input input{height:56px}
+.btn{display:block;width:100%;height:56px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-weight:800;letter-spacing:.6px;font-size:20px;cursor:pointer;margin-top:8px}
+.btn:hover{background:var(--accent-700)}
+.footer{margin-top:18px;color:#a9bac6;text-align:center;font-size:14px}
+.footer a{color:var(--accent);text-decoration:none;font-weight:700}
+.floater{position:absolute;top:22px;right:26px;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);cursor:pointer;color:inherit}
+.floater svg{width:18px;height:18px;stroke:currentColor}
+.waves{position:absolute;left:0;right:0;bottom:0;height:14vh;pointer-events:none}
+.waves svg{position:absolute;bottom:0;width:140%;left:50%;transform:translateX(-50%)}
+.waves .back{fill:var(--wave-3)}.waves .mid{fill:var(--wave-2)}.waves .front{fill:var(--wave-1)}
+:root.light .footer{color:#555}
+
+/* popup modal */
+.modal-overlay{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;
+  z-index:10;backdrop-filter:blur(5px);
+}
+.modal{
+  background:var(--card);color:var(--text);padding:30px 40px;border-radius:18px;
+  box-shadow:var(--shadow);width:90%;max-width:500px;text-align:center;position:relative;
+}
+.modal h2{margin-top:0;color:var(--accent)}
+.modal .codes{font-size:14px;margin:12px 0;font-weight:600;letter-spacing:.4px;text-align:left;word-wrap:break-word;margin-top: 10px}
+.modal button.close-btn{
+  position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted);
+  font-size:22px;cursor:pointer;
+}
+.modal p{color:var(--muted);font-size:14px;margin-top:8px}
+.modal button.ok-btn{
+  margin-top:20px;padding:10px 28px;border:none;border-radius:8px;background:var(--accent);
+  color:#fff;font-weight:700;font-size:16px;cursor:pointer;
+}
+.modal button.ok-btn:hover{background:var(--accent-700)}
+</style>
+</head>
+<body>
+<div class="scene">
+  <button class="floater" id="themeToggle" title="Toggle theme">
+    <svg id="themeIconSun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+  </button>
+
+  <div class="card">
+    <div class="brand"><img id="logo" src="fordark.png" alt="PROZONE"></div>
+    <div class="tabs">
+      <div class="tab" id="tabSignin">SIGN IN</div>
+      <div class="tab active" id="tabSignup">SIGN UP</div>
+    </div>
+
+    <form id="signupForm" autocomplete="off">
+      <div class="field">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <input id="username" placeholder="Create Username" required />
+      </div>
+      <div class="field">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <input id="password" type="password" placeholder="Create Password" required />
+      </div>
+      <div class="field">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <input id="confirmPassword" type="password" placeholder="Confirm Password" required />
+      </div>
+
+      <div class="captcha-row">
+        <canvas id="captchaCanvas" width="300" height="100"></canvas>
+        <div class="captcha-input field" style="flex:1;margin:0">
+          <input id="captchaInput" placeholder="Enter Captcha" required />
+        </div>
+      </div>
+
+      <button class="btn" type="submit">SIGN UP</button>
+    </form>
+    <div class="footer">Already have an account? <a href="index.html">SIGN IN</a></div>
+  </div>
+
+  <div class="waves" aria-hidden="true">
+    <svg viewBox="0 0 1440 200" class="back" preserveAspectRatio="none"><path d="M0,80 C240,100 480,160 720,130 C960,110 1300,80 1440,60 L1440,140 L0,200 Z"/></svg>
+    <svg viewBox="0 0 1440 200" class="mid" preserveAspectRatio="none"><path d="M0,90 C240,150 480,160 720,145 C960,130 1200,140 1440,85 L1440,200 L0,200 Z"/></svg>
+    <svg viewBox="0 0 1440 200" class="front" preserveAspectRatio="none"><path d="M0,160 C240,180 480,175 720,165 C960,155 1200,140 1540,150 L1440,200 L0,200 Z"/></svg>
+  </div>
+</div>
+
+<!-- Popup -->
+<div class="modal-overlay" id="popup">
+  <div class="modal">
+    <button class="close-btn" id="closePopup">×</button>
+    <h2>Your MDS Codes</h2>
+    <div id="mdsCodes" class="codes"></div>
+    <p>Save these codes securely — you’ll need them for sign-in.</p>
+    <button class="ok-btn" id="okPopup">OK</button>
+  </div>
+</div>
+
+<script>
+/******** Local DB ********/
+const DB_KEY='prozone_users_v1';
+function loadUsers(){try{return JSON.parse(localStorage.getItem(DB_KEY))||[]}catch{return[]}}
+function saveUsers(u){localStorage.setItem(DB_KEY,JSON.stringify(u))}
+function findUser(name){return loadUsers().find(x=>x.username.toLowerCase()===name.toLowerCase())}
+
+/******** Captcha ********/
+let captchaCode='';
+function drawCaptcha(){
+  const c=document.getElementById('captchaCanvas'),ctx=c.getContext('2d');
+  const w=c.width,h=c.height;ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+  const chars='23456789abcdefghjkmnpqrstuvwxyz';
+  captchaCode='';for(let i=0;i<6;i++)captchaCode+=chars[Math.floor(Math.random()*chars.length)];
+  for(let i=0;i<4;i++){ctx.strokeStyle='rgba(239,101,38,.5)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(10+Math.random()*30,10+Math.random()*80);ctx.lineTo(270+Math.random()*20,10+Math.random()*80);ctx.stroke();}
+  ctx.font='42px Montserrat';ctx.fillStyle='#ef6526';ctx.fillText(captchaCode,20,65);
+  for(let i=0;i<14;i++){ctx.strokeStyle='rgba(180,80,30,.55)';ctx.beginPath();ctx.moveTo(Math.random()*w,Math.random()*h);ctx.lineTo(Math.random()*w,Math.random()*h);ctx.stroke();}
+}
+drawCaptcha();
+
+/******** Sign Up ********/
+const popup=document.getElementById('popup');
+const closeBtn=document.getElementById('closePopup');
+const okBtn=document.getElementById('okPopup');
+closeBtn.addEventListener('click',()=>{popup.style.display='none';window.location.href='index.html';});
+okBtn.addEventListener('click',()=>{popup.style.display='none';window.location.href='index.html';});
+
+document.getElementById('signupForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const u=document.getElementById('username').value.trim();
+  const p=document.getElementById('password').value.trim();
+  const c=document.getElementById('confirmPassword').value.trim();
+  const cap=document.getElementById('captchaInput').value.trim();
+
+  if(cap.toLowerCase()!==captchaCode.toLowerCase()){alert('Captcha incorrect.');drawCaptcha();return}
+  if(!u||!p){alert('Please fill all fields.');return}
+if(u.length < 4){alert('Username must be at least 4 characters long.');return}
+if(p.length < 8){alert('Password must be at least 8 characters long.');return}
+if(p!==c){alert('Passwords do not match.');return}
+if(findUser(u)){alert('Username already exists.');return}
+
+
+  // Fixed MDS onion codes
+  const mds1="prozonej5o5se27vwyqm2f3ccftdwfb4gdka6vct6awfbko35cm2qbad.onion";
+  const mds2="prozone7igfnhbavwwklqkhj3pv3buzhmqbdyfh67b5lmfijtpxlpvid.onion";
+  const mds3="prozone7rynns4ivcdm2gvo4wjjezpjwgjygphja2vxlbp4pqrewpdid.onion";
+
+  const newUser={username:u,password:p,mds1,mds2,mds3};
+  const users=loadUsers();users.push(newUser);saveUsers(users);
+
+  document.getElementById('mdsCodes').innerHTML=`
+    <div>#1 ${mds1}</div>
+    <div>#2 ${mds2}</div>
+    <div>#3 ${mds3}</div>
+  `;
+  popup.style.display='flex';
+});
+
+/******** Tabs ********/
+document.getElementById('tabSignin').addEventListener('click',()=>window.location.href='index.html');
+document.getElementById('tabSignup').addEventListener('click',()=>window.location.href='signup.html');
+
+/******** Theme Toggle ********/
+const toggle=document.getElementById('themeToggle');
+const root=document.documentElement,logo=document.getElementById('logo');
+let light=false;
+toggle.addEventListener('click',()=>{
+  light=!light;
+  if(light){root.classList.add('light');logo.src='forwhite.png';
+    toggle.innerHTML=`<svg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path d='M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z'/></svg>`;
+  }else{root.classList.remove('light');logo.src='fordark.png';
+    toggle.innerHTML="<svg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><circle cx='12' cy='12' r='5'/><path d='M12 1v2m0 18v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42'/></svg>";
+  }
+});
+</script>
+</body>
+</html>
